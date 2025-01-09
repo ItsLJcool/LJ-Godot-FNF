@@ -3,7 +3,7 @@ extends Node2D
 var temp_filepath:String = "res://Songs/%s/audio/";
 var temp_chartPath:String = "res://Songs/%s/charts/"
 
-var songName_temp:String = "protonated-water-fart";
+var songName_temp:String = "greetings";
 var temp_diff:String = "hard";
 
 var vocal_player:AudioStreamPlayer = AudioStreamPlayer.new()
