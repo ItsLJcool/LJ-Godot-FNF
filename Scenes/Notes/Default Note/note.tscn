@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://bjw2q0bgfqcr0"]
+
+[ext_resource type="Script" uid="uid://1gl7bpdkk5pt" path="res://Scripts/Note/Note Component.gd" id="1_0ww54"]
+[ext_resource type="SpriteFrames" uid="uid://udb1myc5xs22" path="res://Scenes/Notes/Default Note/note.tres" id="2_76g2v"]
+[ext_resource type="Texture2D" uid="uid://c56og36nakguj" path="res://Assets/Notes/Default Note/hold.png" id="3_arain"]
+
+[node name="Note" type="Node2D" node_paths=PackedStringArray("__sprite", "sustain", "endClipRect", "end")]
+script = ExtResource("1_0ww54")
+__sprite = NodePath("NoteSprite")
+sustain = NodePath("Sustain")
+endClipRect = NodePath("Sustain/ClipRect")
+end = NodePath("Sustain/ClipRect/End")
+
+[node name="Sustain" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 0, 200)
+width = 50.0
+texture = ExtResource("3_arain")
+texture_mode = 1
+
+[node name="ClipRect" type="Control" parent="Sustain"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="End" type="AnimatedSprite2D" parent="Sustain/ClipRect"]
+position = Vector2(0, 200)
+sprite_frames = ExtResource("2_76g2v")
+animation = &"end"
+offset = Vector2(0, 28)
+
+[node name="NoteSprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_76g2v")
+animation = &"note"
+frame_progress = 1.0

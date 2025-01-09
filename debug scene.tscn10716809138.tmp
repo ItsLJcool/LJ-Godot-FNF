@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://b6jq2265auxpr"]
+
+[ext_resource type="Script" uid="uid://0xt3cgaa0n50" path="res://debug scene.gd" id="1_lt4gw"]
+[ext_resource type="PackedScene" uid="uid://b1tl17ypmla04" path="res://Scripts/StrumLine.tscn" id="2_h6dgm"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_lt4gw")
+
+[node name="StrumLine" parent="." instance=ExtResource("2_h6dgm")]
+position = Vector2(640, 100)
+StrumsAmount = 3

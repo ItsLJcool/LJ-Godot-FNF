@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1tl17ypmla04"]
+
+[ext_resource type="Script" uid="uid://blovpixmds6bu" path="res://Scripts/StrumLine.gd" id="1_e4de8"]
+
+[node name="StrumLine" type="Node2D"]
+script = ExtResource("1_e4de8")

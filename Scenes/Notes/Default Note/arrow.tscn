@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://6sdebbp02p2y"]
+
+[ext_resource type="Script" uid="uid://bf8sa2ub17vae" path="res://Scripts/Note/Arrow Component.gd" id="1_frh78"]
+[ext_resource type="SpriteFrames" uid="uid://dvalcyciviubm" path="res://Scenes/Notes/Default Note/arrow.tres" id="1_p7rsy"]
+
+[node name="Arrow" type="Node2D" node_paths=PackedStringArray("__sprite")]
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_frh78")
+__sprite = NodePath("ArrowSprite")
+
+[node name="ArrowSprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -1.19209e-07)
+sprite_frames = ExtResource("1_p7rsy")
+animation = &"arrow"
