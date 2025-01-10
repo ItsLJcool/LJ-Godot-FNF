@@ -32,3 +32,4 @@ offset = Vector2(0, 28)
 [node name="NoteSprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_76g2v")
 animation = &"note"
+frame_progress = 1.0

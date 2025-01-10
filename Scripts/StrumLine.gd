@@ -87,7 +87,6 @@ func _process(delta: float) -> void:
 	
 	# Implementing the funny
 	var idx = notes.size()-1;
-	#print("Size: ", notes.size())
 	while(idx >= 0):
 		var data = notes[idx]
 		var spawnTime = (data.strumTime - Conductor.song_position)
@@ -95,7 +94,6 @@ func _process(delta: float) -> void:
 			__addNote(data);
 			notes.remove_at(idx)
 		idx -= 1;
-	#for data in notes:
 	
 	# Handling Note Movement
 	for strum in _strums:

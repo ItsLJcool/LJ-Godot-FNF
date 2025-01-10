@@ -46,7 +46,7 @@ func set_direction(strumsAmount:int):
 	var strumDir = 0;
 	if (direction < array.size()):
 		strumDir = array[direction]
-	
+	direction = strumDir;
 	__sprite.rotation_degrees = rotated_direction(strumDir)
 
 var _strumPath:String = "res://Scenes/Notes/%s/arrow.tres";

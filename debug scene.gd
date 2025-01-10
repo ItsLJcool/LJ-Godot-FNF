@@ -3,7 +3,7 @@ extends Node2D
 var temp_filepath:String = "res://Songs/%s/audio/";
 var temp_chartPath:String = "res://Songs/%s/charts/"
 
-var songName_temp:String = "smoke-and-mirrors";
+var songName_temp:String = "hello";
 var temp_diff:String = "hard";
 
 var vocal_player:AudioStreamPlayer = AudioStreamPlayer.new()
@@ -54,9 +54,6 @@ func tempChart():
 
 var cpu_note_bounce = [null, null, null, null]
 var player_note_bounce = [null, null, null, null]
-
-var cpu_note_move = [null, null, null, null]
-var player_note_move= [null, null, null, null]
 func onStrumsHit(strumline:StrumLine, strum:StaticArrow, note:Note):
 	var strumsinGame = get_strumlines();
 	

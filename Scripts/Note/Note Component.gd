@@ -74,7 +74,7 @@ func updateSustain(strum:StaticArrow):
 	
 	var lengthPog = (0.45 * round(strum.scrollSpeed * 100) / 100);
 	var yVal = 0;
-	if position.y < strum.position.y and wasGoodHit:
+	if wasGoodHit:
 		yVal = ((sustainLength + (strumTime - Conductor.song_position)) * lengthPog);
 		
 		sustain.position.y = -(position.y - strum.position.y);
@@ -84,8 +84,8 @@ func updateSustain(strum:StaticArrow):
 		sustain.position.y = 0;
 	
 	yVal -= _endSize.get_height();
-	lastPoint.y = yVal;
 	
+	lastPoint.y = yVal;
 	lastPoint.y = max(lastPoint.y, 0)
 	
 	sustain.set_point_position(sustain.get_point_count()-1, lastPoint);
