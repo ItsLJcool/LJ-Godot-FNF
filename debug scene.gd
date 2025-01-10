@@ -3,7 +3,7 @@ extends Node2D
 var temp_filepath:String = "res://Songs/%s/audio/";
 var temp_chartPath:String = "res://Songs/%s/charts/"
 
-var songName_temp:String = "overstimulation";
+var songName_temp:String = "smoke-and-mirrors";
 var temp_diff:String = "hard";
 
 var vocal_player:AudioStreamPlayer = AudioStreamPlayer.new()
@@ -35,7 +35,6 @@ func tempChart():
 	var strumLines = json.strumLines;
 	
 	var strumlinesInGame = get_strumlines();
-	var noteTemp = load("res://Scenes/Notes/Default Note/note.tscn")
 	for idx in range(0, strumlinesInGame.size()):
 		var strumline = strumlinesInGame[idx];
 		strumline.scrollSpeed = json.scrollSpeed
@@ -43,12 +42,15 @@ func tempChart():
 		strumline.connect("onNoteHit", onStrumsHit);
 				
 		var notes = strumLines[idx].notes;
+		var __notes:Array[Dictionary] = []
 		for data in notes:
-			var note = noteTemp.instantiate();
-			note.strumTime = data.time;
-			note.direction = data.id;
-			note.sustainLength = data.sLen;
-			strumline.addNote(note);
+			var noteData:Dictionary = {
+				"strumTime": data.time,
+				"sustainLength": data.sLen,
+				"direction": data.id,
+			}
+			__notes.push_back(noteData)
+		strumline.addNotes(__notes)
 
 var cpu_note_bounce = [null, null, null, null]
 var player_note_bounce = [null, null, null, null]
@@ -58,23 +60,17 @@ var player_note_move= [null, null, null, null]
 func onStrumsHit(strumline:StrumLine, strum:StaticArrow, note:Note):
 	var strumsinGame = get_strumlines();
 	
-	var movingX = 5
 	var bounce = cpu_note_bounce;
-	var move = cpu_note_move
 	if (strumline == strumsinGame[1]):
 		bounce = player_note_bounce;
-		move = player_note_move;
-		movingX = -5;
-	movingX *= 2
-	if move[note.direction]: move[note.direction].kill()
-	move[note.direction] = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_QUAD)
-	move[note.direction].tween_property(strum, "position:x", strum.position.x + movingX, 0.5)
 	
 	#strum.position.x += movingX;
 	if bounce[note.direction]: bounce[note.direction].kill()
 	bounce[note.direction] = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_QUART)
 
-	strum.position.y -= 14;
+	strum.position.y -= 7;
+	if (strum.position.y < -50):
+		strum.position.y = -50
 	bounce[note.direction].tween_property(strum, "position:y", 0, 0.35)
 
 func get_strumlines():

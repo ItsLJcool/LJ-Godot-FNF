@@ -12,6 +12,8 @@ enum NoteType {
 @export var endClipRect:Control;
 @export var end:AnimatedSprite2D;
 
+var __strum:StaticArrow;
+
 var strumTime:float = 1000;
 var sustainLength:float = 500;
 
@@ -20,8 +22,21 @@ var avoid:bool = false;
 
 var direction:StaticArrow.Direction = StaticArrow.Direction.Left:
 	set(value):
-		direction = value;
-		__sprite.rotation_degrees = StaticArrow.rotated_direction(direction)
+		direction = value
+		if !Engine.is_editor_hint():
+			set_direction();
+func set_direction():
+	var array = [];
+	if (!__strum.muliStrums.has(__strum.strumLine.StrumsAmount)):
+		array = [StaticArrow.Direction.Left, StaticArrow.Direction.Down, StaticArrow.Direction.Up, StaticArrow.Direction.Right]
+	else:
+		array = __strum.muliStrums.get(__strum.strumLine.StrumsAmount)
+	
+	var strumDir = 0;
+	if (direction < array.size()):
+		strumDir = array[direction]
+	
+	__sprite.rotation_degrees = StaticArrow.rotated_direction(strumDir)
 
 var _notePath:String = "res://Scenes/Notes/%s/note.tres";
 var noteType:NoteType = NoteType.Default_Note:
@@ -44,7 +59,8 @@ var latePressWindow:float = 1;
 
 func _ready() -> void:
 	noteType = noteType;
-	endClipRect.clip_contents = true;
+	if (!Engine.is_editor_hint()):
+		endClipRect.clip_contents = true;
 
 func _process(delta: float) -> void:
 	if (Engine.is_editor_hint()):

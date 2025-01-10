@@ -26,20 +26,28 @@ static func rotated_direction(dir:Direction):
 
 @export var __sprite:AnimatedSprite2D
 
-var direction:Direction = Direction.Left:
-	set(value):
-		direction = value;
-		__sprite.rotation_degrees = rotated_direction(direction)
-#func set_direction(value:int):
-	#match value:
-		#0:
-			#direction = Direction.Left;
-		#1:
-			#direction = Direction.Down
-		#2:
-			#direction = Direction.Up
-		#3:
-			#direction = Direction.Right
+var strumLine:StrumLine;
+
+var muliStrums:Dictionary[int, Array] = {
+	1: [Direction.Left],
+	2: [Direction.Left, Direction.Right],
+	3: [Direction.Left, Direction.Down, Direction.Right],
+	4: [Direction.Left, Direction.Down, Direction.Up, Direction.Right]
+}
+
+var direction:Direction = Direction.Left
+func set_direction(strumsAmount:int):
+	var array = [];
+	if (!muliStrums.has(strumsAmount)):
+		array = [Direction.Left, Direction.Down, Direction.Up, Direction.Right]
+	else:
+		array = muliStrums.get(strumsAmount)
+	
+	var strumDir = 0;
+	if (direction < array.size()):
+		strumDir = array[direction]
+	
+	__sprite.rotation_degrees = rotated_direction(strumDir)
 
 var _strumPath:String = "res://Scenes/Notes/%s/arrow.tres";
 @export var strumType:StrumType = StrumType.Default_Note:
@@ -52,10 +60,14 @@ var _strumPath:String = "res://Scenes/Notes/%s/arrow.tres";
 func get_strumType():
 	return StrumType.keys()[strumType].replace("_", " ");
 
-var scrollSpeed:float = 1;
 
-func noteTime(note:Note):
-	return (note.strumTime - Conductor.song_position) * (0.45 * round(scrollSpeed * 100) / 100);
+func onGenerate():
+	pass
+
+
+# Note Handling Code
+
+var scrollSpeed:float = 1;
 
 var _notes:Array[Note] = [];
 func update_notes():
@@ -69,6 +81,8 @@ func update_notes():
 		if (note.position.y < -5000):
 			deleteNote(note);
 
+func noteTime(note:Note):
+	return (note.strumTime - Conductor.song_position) * (0.45 * round(scrollSpeed * 100) / 100);
 
 signal noteHit(note:Note)
 signal noteMiss(note:Note)
@@ -85,8 +99,8 @@ func doNoteMiss(note:Note):
 
 var cpu:bool = false;
 func check_note(note):
-	note.canBeHit = ((note.strumTime + note.sustainLength) > Conductor.song_position - (note.hitWindow * note.latePressWindow)
-		and (note.strumTime - note.sustainLength) < Conductor.song_position + (note.hitWindow * note.earlyPressWindow));
+	note.canBeHit = ((note.strumTime + note.sustainLength)  > Conductor.song_position - (note.hitWindow * note.latePressWindow)
+		and (note.strumTime) < Conductor.song_position + (note.hitWindow * note.earlyPressWindow));
 	
 	if ((note.strumTime + note.sustainLength) < Conductor.song_position - note.hitWindow and !note.wasGoodHit):
 		note.tooLate = true;
